@@ -20,8 +20,9 @@ const Form = (props) => {
             maxCpcBid: props.maxCpcBid
           })
   
-          console.log("data", data)
-          const res = await fetch("/sem/userSubmission", {
+          console.log("data", process.env.REACT_APP_BASE_URL);
+
+          const res = await fetch(`${process.env.REACT_APP_BASE_URL}/sem/userSubmission`, {
             method: "POST",
             headers: {"content-type": "application/json"},
             body: data,

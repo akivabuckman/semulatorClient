@@ -5,10 +5,9 @@ import { useState, useEffect } from 'react';
 import Jotform from './components/Jotform';
 import InfoPane from './components/InfoPane';
 import Form from './components/Form';
+import dotenv from "dotenv"
 
 function App() {
-  // const iframeDoc = document.querySelector("iframe").contentDocument.documentElement;
-  // let submitButton;
   const [adSpend, setAdSpend] = useState(null);
   const [landingPage, setLandingPage] = useState("");
   const [keyword, setKeyword] = useState("");
@@ -22,6 +21,7 @@ function App() {
   const [totalSpend, setTotalSpend] = useState(null);
   const [finalConversionRate, setFinalConversionRate] = useState(null);
   
+  console.log(process.env.REACT_APP_BASE_URL)
 
   return (
     <>
