@@ -78,15 +78,13 @@
     font-size: 16px;
   }
   
-  #totalSpend,
-  #finalConversionRate {
+  .finalResult {
     font-size: 18px;
     font-weight: bold;
     margin-top: 20px;
   }
   
-  #totalSpend::before,
-  #finalConversionRate::before {
+  .finalResult::before {
     content: "\1F4B8 "; /* Unicode for money bag emoji */
     font-size: 24px;
     margin-right: 10px;

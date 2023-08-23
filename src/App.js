@@ -20,8 +20,10 @@ function App() {
   const [maxCpcBid, setMaxCpcBid] = useState(null);
   const [totalSpend, setTotalSpend] = useState(null);
   const [finalConversionRate, setFinalConversionRate] = useState(null);
-  
-  console.log(process.env.REACT_APP_BASE_URL)
+  const [finalCpc, setFinalCpc] = useState(null);
+  const [totalClicks, setTotalClicks] = useState(null);
+  const [conversions, setConversions] = useState(null);
+  const [costPerConv, setCostPerConv] = useState(null);
 
   return (
     <>
@@ -65,6 +67,15 @@ function App() {
     setTotalSpend={setTotalSpend}
     finalConversionRate={finalConversionRate}
     setFinalConversionRate={setFinalConversionRate}
+    finalCpc={finalCpc}
+    setFinalCpc={setFinalCpc}
+    totalClicks={totalClicks}
+    setTotalClicks={setTotalClicks}
+    conversions={conversions}
+    setConversions={setConversions}
+    costPerConv={costPerConv}
+    setCostPerConv={setCostPerConv}
+
     
     
     />

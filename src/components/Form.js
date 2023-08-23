@@ -20,18 +20,21 @@ const Form = (props) => {
             maxCpcBid: props.maxCpcBid
           })
   
-          console.log("data", process.env.REACT_APP_BASE_URL);
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/sem/userSubmission`, {
+    // const res = await fetch("http://localhost:5000/sem/userSubmission", {
 
-          const res = await fetch(`${process.env.REACT_APP_BASE_URL}/sem/userSubmission`, {
-            method: "POST",
+        method: "POST",
             headers: {"content-type": "application/json"},
             body: data,
           });
           const parsedData = await res.json();
           console.log(parsedData)
           props.setTotalSpend(parsedData["totalSpend"]);
-          console.log(parsedData)
-          props.setFinalConversionRate(parsedData["finalConversionRate"])
+          props.setFinalConversionRate(parsedData["finalConversionRate"]);
+          props.setFinalCpc(parsedData["finalCpc"]);
+          props.setTotalClicks(parsedData["totalClicks"]);
+          props.setConversions(parsedData["conversions"]);
+          props.setCostPerConv(parsedData["costPerConv"]);
         } catch (error) {
           console.log(error)
         }
@@ -197,8 +200,12 @@ const Form = (props) => {
             <div>
             <button onClick={postAndGetResults} type="submit">Submit</button>
             </div>
-            <div id="totalSpend">TOTAL SPEND: {props.totalSpend}</div>
-            <div id="finalConversionRate">FINAL CONVERSION RATE: {props.finalConversionRate}</div>
+            <div class="finalResult" id="totalSpend">TOTAL SPEND: ${props.totalSpend}</div>
+            <div class="finalResult" id="finalConversionRate">FINAL CONVERSION RATE: {props.finalConversionRate}</div>
+            <div class="finalResult" id="finalCpc">FINAL CPC: {props.finalCpc}</div>
+            <div class="finalResult" id="totalClicks">TOTAL CLICKS: {props.totalClicks}</div>
+            <div class="finalResult" id="conversions">CONVERSIONS: {props.conversions}</div>
+            <div class="finalResult" id="costPerConv">COST / CONV: ${props.costPerConv}</div>
 
             
         </form>
