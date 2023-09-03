@@ -24,6 +24,7 @@ function App() {
   const [totalClicks, setTotalClicks] = useState(null);
   const [conversions, setConversions] = useState(null);
   const [costPerConv, setCostPerConv] = useState(null);
+  const [round, setRound] = useState(1);
 
   return (
     <>
@@ -40,6 +41,8 @@ function App() {
     setHeadline1={setHeadline1}
     maxCpcBid={maxCpcBid}
     setMaxCpcBid={setMaxCpcBid}
+    round={round}
+    setRound={setRound}
     />
     
     <Form 
@@ -75,6 +78,8 @@ function App() {
     setConversions={setConversions}
     costPerConv={costPerConv}
     setCostPerConv={setCostPerConv}
+    round={round}
+    setRound={setRound}
 
     
     
