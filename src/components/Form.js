@@ -23,8 +23,8 @@ const Form = (props) => {
             maxCpcBid: props.maxCpcBid
           })
   
-    //   const res = await fetch(`${process.env.REACT_APP_BASE_URL}/sem/userSubmission`, {
-        const res = await fetch("http://localhost:5000/sem/userSubmission", {
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/sem/userSubmission`, {
+        // const res = await fetch("http://localhost:5000/sem/userSubmission", {
 
         method: "POST",
             headers: {"content-type": "application/json"},
