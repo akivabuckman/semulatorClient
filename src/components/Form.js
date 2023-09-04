@@ -3,8 +3,7 @@ import { useState, useEffect } from 'react';
 import "./Form.css";
 import FormControl from '@mui/material/FormControl';
 import { InputLabel, Input, FormHelperText, TextField, Button, RadioGroup, FormControlLabel, Radio, Select, MenuItem } from "@mui/material";
-
-
+const options = require('../options.json');
 
 
 const Form = (props) => {
@@ -45,11 +44,6 @@ const Form = (props) => {
 
     };
 
-    const closePopup = (e) => {
-        console.log(e.target);
-        document.querySelector("#popups").style.display = "none";
-    }
-
     // handle inputs
 
     const handleLandingPage = (event) => {
@@ -88,9 +82,9 @@ const Form = (props) => {
         props.setMaxCpcBid(event.target.value)
     };
 
-    const formLog = () =>{
-        console.log(props.round)
-    }
+    const formLog = async () => {
+        console.log(Object.keys((options.guitarLessons.headlines)))
+      }
 
     
     return (
@@ -105,17 +99,20 @@ const Form = (props) => {
 
     <div id='q2' className='question'>
       <h3>Learn about landing pages</h3>
-      <iframe width="650" height="350" src="https://www.youtube.com/embed/G59uBAfcpSQ" title="Landing Pages" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      <iframe width="650" height="350" src="https://www.youtube.com/embed/G59uBAfcpSQ" title="Landing Pages" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
     </div>
 
     <div className='question'>
       <h3 htmlFor="landingPage">Choose your landing page</h3>
       <RadioGroup name="landingPage" value={props.landingPage} onChange={handleLandingPage} required>
-        <FormControlLabel value="https://mailchi.mp/a1b44f8539f5/ogl1" control={<Radio />} label="https://mailchi.mp/a1b44f8539f5/ogl1" />
-        <FormControlLabel value="https://mailchi.mp/c75056f9e68d/0vbdv2gzpf" control={<Radio />} label="https://mailchi.mp/c75056f9e68d/0vbdv2gzpf" />
-        <FormControlLabel value="https://mailchi.mp/6172a273b63f/ucu54u0ssn" control={<Radio />} label="https://mailchi.mp/6172a273b63f/ucu54u0ssn" />
-        <FormControlLabel value="https://mailchi.mp/a6be4fdef0a7/99xf1ssoix" control={<Radio />} label="https://mailchi.mp/a6be4fdef0a7/99xf1ssoix" />
-        <FormControlLabel value="https://mailchi.mp/641a0d8d206f/hj2x6skckh" control={<Radio />} label="https://mailchi.mp/641a0d8d206f/hj2x6skckh" />
+        {options.guitarLessons.landingPage.map((lp, key) => (
+        <FormControlLabel
+          key={key}
+          value={lp}
+          control={<Radio />}
+          label={lp}
+        />
+      ))}
       </RadioGroup>
     </div>
 
@@ -125,7 +122,7 @@ const Form = (props) => {
     </div>
 
     <div className='question'>
-      <h3>Choose your match type</h3>
+      <h3>Choose your match type:</h3>
       <RadioGroup name="matchType" value={props.matchType} onChange={handleMatchType}>
         <FormControlLabel value="Exact" control={<Radio />} label="Exact" />
         <FormControlLabel value="Phrase" control={<Radio />} label="Phrase" />
@@ -136,52 +133,82 @@ const Form = (props) => {
     <div className='question'>
       <h3>Choose Your Headlines</h3>
       <div>
-      <label>
-          Select first headline:
-          <Select value={props.headline1} onChange={handleHeadline1} required>
-            <MenuItem value="Headline a">Headline a</MenuItem>
-            <MenuItem value="Dynamic Headline">Dynamic Headline</MenuItem>
-            <MenuItem value="Easy, Step-By-Step Lessons">Easy, Step-By-Step Lessons</MenuItem>
-          </Select>
-        </label>
+        <FormControl>
         <label>
-          Select second headline:
-          <Select value={props.headline2} onChange={handleHeadline2} required>
-            <MenuItem value="Headline a">Headline a</MenuItem>
-            <MenuItem value="Dynamic Headline">Dynamic Headline</MenuItem>
-            <MenuItem value="Easy, Step-By-Step Lessons">Easy, Step-By-Step Lessons</MenuItem>
+          Select first headline: <br/>
+          <Select value={props.headline1} onChange={handleHeadline1} required className='selectDrop'>
+            {Object.keys(options.guitarLessons.headlines).map((headline, key) => (
+                <MenuItem
+                value={headline}
+                key={key}
+                >{headline}</MenuItem>
+            ))}
           </Select>
         </label>
-        <label>
-          Select third headline:
-          <Select value={props.headline3} onChange={handleHeadline3} required>
-            <MenuItem value="Headline a">Headline a</MenuItem>
-            <MenuItem value="Dynamic Headline">Dynamic Headline</MenuItem>
-            <MenuItem value="Easy, Step-By-Step Lessons">Easy, Step-By-Step Lessons</MenuItem>
-          </Select>
+        </FormControl>
+        <br/><br/>
+
+        <FormControl>
+            
+            <label>
+          Select second headline: <br/>
+          <Select value={props.headline2} onChange={handleHeadline2} required className='selectDrop'>
+          {Object.keys(options.guitarLessons.headlines).map((headline, key) => (
+                <MenuItem
+                value={headline}
+                key={key}
+                >{headline}</MenuItem>
+            ))}
+        </Select>
         </label>
+        </FormControl>
+        <br/><br/>
+        <FormControl>
+            <label>
+          Select third headline: <br/>
+          <Select value={props.headline3} onChange={handleHeadline3} required className='selectDrop'>
+          {Object.keys(options.guitarLessons.headlines).map((headline, key) => (
+                <MenuItem
+                value={headline}
+                key={key}
+                >{headline}</MenuItem>
+            ))}
+        </Select>
+        </label>
+        </FormControl>
       </div>
     </div>
 
     <div className='question'>
       <h3>Choose Your Descriptions</h3>
       <div>
+        <FormControl>
         <label>
-          Select first description:
-          <Select value={props.description1} onChange={handleDescription1} required>
-            <MenuItem value="des a">des a</MenuItem>
-            <MenuItem value="des b">des b</MenuItem>
-            <MenuItem value="Our expert instructors will teach you everything you need to know to play like a pro">Our expert instructors will teach you everything you need to know to play like a pro</MenuItem>
+          Select first description: <br/>
+          <Select value={props.description1} onChange={handleDescription1} required className='selectDrop'>
+          {Object.keys(options.guitarLessons.descriptions).map((description, key) => (
+                <MenuItem
+                value={description}
+                key={key}
+                >{description}</MenuItem>
+            ))} 
+        </Select>
+        </label>
+        </FormControl>
+        <br/><br/>
+        <FormControl>
+        <label>
+          Select second description: <br/>
+          <Select value={props.description2} onChange={handleDescription2} required className='selectDrop'>
+          {Object.keys(options.guitarLessons.descriptions).map((description, key) => (
+                <MenuItem
+                value={description}
+                key={key}
+                >{description}</MenuItem>
+            ))} 
           </Select>
         </label>
-        <label>
-          Select second description:
-          <Select value={props.description2} onChange={handleDescription2} required>
-            <MenuItem value="des a">des a</MenuItem>
-            <MenuItem value="des b">des b</MenuItem>
-            <MenuItem value="Our expert instructors will teach you everything you need to know to play like a pro">Our expert instructors will teach you everything you need to know to play like a pro</MenuItem>
-          </Select>
-        </label>
+        </FormControl>
       </div>
     </div>
 
@@ -194,7 +221,7 @@ const Form = (props) => {
       <Button onClick={(e)=>{
         document.querySelector("#popups").style.display="flex"
         console.log(props.conversions)
-        if (parseFloat(props.conversions) >= 0) {
+        if (parseFloat(props.conversions) >= 35) {
             document.querySelector("#successPopup").style.display = "flex"
             document.querySelector("#failPopup").style.display = "none"
 
