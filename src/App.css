@@ -37,6 +37,21 @@
   }
 }
 
-/* #infopaneDiv {
-  position: fixed;
-} */
+#infoAndForm {
+  display: flex;
+  align-items: flex-start; /* Align items at the top */
+}
+
+#infoPaneDiv {
+  width: 30%; /* Set the width for infoPane */
+  background-color: lightblue; /* Add background color or any other styles you want */
+  position: fixed; /* Fix the position */
+  left: 0; /* Stick to the left */
+  display: flex;
+}
+
+#form {
+  width: 70%; /* Set the width for form */
+  margin-left: 32%; /* Adjust margin to create space for infoPane */
+
+}

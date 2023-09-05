@@ -7,24 +7,29 @@ const options = require('../options.json');
 
 
 const Form = (props) => {
+  // upon submit button click
     const postAndGetResults = async (e) => {
         e.preventDefault();
+        document.querySelector("#keywordInput").value = "";
+        document.querySelector("#maxCpcBidInput").value = "";
+        
         try {
           const data = JSON.stringify({
-            adSpend: props.adSpend,
-            landingPage: props.landingPage,
-            keyword: props.keyword,
-            matchType: props.matchType,
-            headline1: props.headline1,
-            headline2: props.headline2,
-            headline3: props.headline3,
-            description1: props.description1,
-            description2: props.description2,
-            maxCpcBid: props.maxCpcBid
+            adSpend: 1400,
+            landingPage: props.userInputs[props.round]["landingPage"],
+            keyword: props.userInputs[props.round]["keyword"],
+            matchType: props.userInputs[props.round]["matchType"],
+            headline1: props.userInputs[props.round]["headline1"],
+            headline2: props.userInputs[props.round]["headline2"],
+            headline3: props.userInputs[props.round]["headline3"],
+            description1: props.userInputs[props.round]["description1"],
+            description2: props.userInputs[props.round]["description2"],
+            maxCpcBid: props.userInputs[props.round]["maxCpcBid"]
           })
+          console.log(data)
   
-      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/sem/userSubmission`, {
-        // const res = await fetch("http://localhost:5000/sem/userSubmission", {
+      // const res = await fetch(`${process.env.REACT_APP_BASE_URL}/sem/userSubmission`, {
+        const res = await fetch("http://localhost:5000/sem/userSubmission", {
 
         method: "POST",
             headers: {"content-type": "application/json"},
@@ -38,6 +43,14 @@ const Form = (props) => {
           props.setTotalClicks(parsedData["totalClicks"]);
           props.setConversions(parsedData["conversions"]);
           props.setCostPerConv(parsedData["costPerConv"]);
+          const updatedUserInputs = { ...props.userInputs };
+          updatedUserInputs[props.round]["totalSpend"] = parsedData["totalSpend"];
+          updatedUserInputs[props.round]["finalConversionRate"] = parsedData["finalConversionRate"];
+          updatedUserInputs[props.round]["finalCpc"] = parsedData["finalCpc"];
+          updatedUserInputs[props.round]["totalClicks"] = parsedData["totalClicks"];
+          updatedUserInputs[props.round]["conversions"] = parsedData["conversions"];
+          updatedUserInputs[props.round]["costPerConv"] = parsedData["costPerConv"];
+          props.setUserInputs(updatedUserInputs);
         } catch (error) {
           console.log(error)
         };
@@ -47,52 +60,71 @@ const Form = (props) => {
     // handle inputs
 
     const handleLandingPage = (event) => {
-        props.setLandingPage(event.target.value)
+      const updatedUserInputs = { ...props.userInputs };
+      updatedUserInputs[props.round]["landingPage"] = event.target.value;
+      props.setUserInputs(updatedUserInputs);
     };
 
     const handleKeyword = (event) => {
-        props.setKeyword(event.target.value)
+      const updatedUserInputs = { ...props.userInputs };
+      updatedUserInputs[props.round]["keyword"] = event.target.value;
+      props.setUserInputs(updatedUserInputs);
     };
 
     const handleMatchType = (event) => {
-        props.setMatchType(event.target.value)
+      const updatedUserInputs = { ...props.userInputs };
+      updatedUserInputs[props.round]["matchType"] = event.target.value;
+      props.setUserInputs(updatedUserInputs);
     };
 
     const handleHeadline1 = (event) => {
-        props.setHeadline1(event.target.value)
+      const updatedUserInputs = { ...props.userInputs };
+      updatedUserInputs[props.round]["headline1"] = event.target.value;
+      props.setUserInputs(updatedUserInputs);
     };
 
     const handleHeadline2 = (event) => {
-        props.setHeadline2(event.target.value)
+      const updatedUserInputs = { ...props.userInputs };
+      updatedUserInputs[props.round]["headline2"] = event.target.value;
+      props.setUserInputs(updatedUserInputs);
     };
 
     const handleHeadline3 = (event) => {
-        props.setHeadline3(event.target.value)
+      const updatedUserInputs = { ...props.userInputs };
+      updatedUserInputs[props.round]["headline3"] = event.target.value;
+      props.setUserInputs(updatedUserInputs);
     };
 
     const handleDescription1 = (event) => {
-        props.setDescription1(event.target.value)
+      const updatedUserInputs = { ...props.userInputs };
+      updatedUserInputs[props.round]["description1"] = event.target.value;
+      props.setUserInputs(updatedUserInputs);
     };
 
     const handleDescription2 = (event) => {
-        props.setDescription2(event.target.value)
+      const updatedUserInputs = { ...props.userInputs };
+      updatedUserInputs[props.round]["description2"] = event.target.value;
+      props.setUserInputs(updatedUserInputs);
     };
 
     const handleMaxCpcBid = (event) => {
-        props.setMaxCpcBid(event.target.value)
+      const updatedUserInputs = { ...props.userInputs };
+      updatedUserInputs[props.round]["maxCpcBid"] = event.target.value;
+      props.setUserInputs(updatedUserInputs);
     };
 
     const formLog = async () => {
-        console.log(Object.keys((options.guitarLessons.headlines)))
+        console.log(props.userInputs)
       }
 
     
     return (
         <>
-        <button onClick={formLog}>form log</button>
         <FormControl id="form">
+        <button onClick={formLog}>form log</button>
+
     <div id="intro" className="question">
-      <h1>Semulator</h1>
+      <h1 id="roundTitle">Round {props.round}</h1>
       <h2>You are working for a client who helps beginners learn guitar over the internet. You have $100/day to spend on ads over the next 2 weeks, for a total of $1400.</h2>
       <p>Your goal: Get 35 ad leads (conversions) in one round</p>
     </div>
@@ -104,7 +136,7 @@ const Form = (props) => {
 
     <div className='question'>
       <h3 htmlFor="landingPage">Choose your landing page</h3>
-      <RadioGroup name="landingPage" value={props.landingPage} onChange={handleLandingPage} required>
+      <RadioGroup name="landingPage" value={props.userInputs[props.round]["landingPage"]} onChange={handleLandingPage} required>
         {options.guitarLessons.landingPage.map((lp, key) => (
         <FormControlLabel
           key={key}
@@ -118,12 +150,12 @@ const Form = (props) => {
 
     <div className='question'>
       <h3>Enter your keyword below</h3>
-      <TextField type="text" onChange={handleKeyword} required />
+      <TextField id="keywordInput" type="text" onChange={handleKeyword} required />
     </div>
 
     <div className='question'>
       <h3>Choose your match type:</h3>
-      <RadioGroup name="matchType" value={props.matchType} onChange={handleMatchType}>
+      <RadioGroup name="matchType" value={props.userInputs[props.round]["matchType"]} onChange={handleMatchType}>
         <FormControlLabel value="Exact" control={<Radio />} label="Exact" />
         <FormControlLabel value="Phrase" control={<Radio />} label="Phrase" />
         <FormControlLabel value="Broad" control={<Radio />} label="Broad" />
@@ -136,7 +168,7 @@ const Form = (props) => {
         <FormControl>
         <label>
           Select first headline: <br/>
-          <Select value={props.headline1} onChange={handleHeadline1} required className='selectDrop'>
+          <Select value={props.userInputs[props.round]["headline1"]} onChange={handleHeadline1} required className='selectDrop'>
             {Object.keys(options.guitarLessons.headlines).map((headline, key) => (
                 <MenuItem
                 value={headline}
@@ -152,7 +184,7 @@ const Form = (props) => {
             
             <label>
           Select second headline: <br/>
-          <Select value={props.headline2} onChange={handleHeadline2} required className='selectDrop'>
+          <Select value={props.userInputs[props.round]["headline2"]} onChange={handleHeadline2} required className='selectDrop'>
           {Object.keys(options.guitarLessons.headlines).map((headline, key) => (
                 <MenuItem
                 value={headline}
@@ -166,7 +198,7 @@ const Form = (props) => {
         <FormControl>
             <label>
           Select third headline: <br/>
-          <Select value={props.headline3} onChange={handleHeadline3} required className='selectDrop'>
+          <Select value={props.userInputs[props.round]["headline3"]} onChange={handleHeadline3} required className='selectDrop'>
           {Object.keys(options.guitarLessons.headlines).map((headline, key) => (
                 <MenuItem
                 value={headline}
@@ -185,7 +217,7 @@ const Form = (props) => {
         <FormControl>
         <label>
           Select first description: <br/>
-          <Select value={props.description1} onChange={handleDescription1} required className='selectDrop'>
+          <Select value={props.userInputs[props.round]["description1"]} onChange={handleDescription1} required className='selectDrop'>
           {Object.keys(options.guitarLessons.descriptions).map((description, key) => (
                 <MenuItem
                 value={description}
@@ -199,7 +231,7 @@ const Form = (props) => {
         <FormControl>
         <label>
           Select second description: <br/>
-          <Select value={props.description2} onChange={handleDescription2} required className='selectDrop'>
+          <Select value={props.userInputs[props.round]["description2"]} onChange={handleDescription2} required className='selectDrop'>
           {Object.keys(options.guitarLessons.descriptions).map((description, key) => (
                 <MenuItem
                 value={description}
@@ -214,7 +246,7 @@ const Form = (props) => {
 
     <div className='question'>
       <label htmlFor="maxCpcBid">Enter your max cost per click bid:</label>
-      <TextField id="maxCpcBidInput" type="text" onChange={handleMaxCpcBid} required />
+      <p>$<TextField id="maxCpcBidInput" type="text" onChange={handleMaxCpcBid} required /></p>
     </div>
 
     <div>
@@ -230,7 +262,7 @@ const Form = (props) => {
             document.querySelector("#failPopup").style.display = "flex"
         };
         postAndGetResults(e)}}
-        variant="contained" color="primary" type="submit" disabled={!props.landingPage || !props.keyword || !props.matchType || !props.headline1 || !props.description1 || !props.maxCpcBid}>Submit</Button>
+        variant="contained" color="primary" type="submit" disabled={!props.userInputs[props.round]["landingPage"] || !props.userInputs[props.round]["keyword"] || !props.userInputs[props.round]["matchType"] || !props.userInputs[props.round]["headline1"] ||!props.userInputs[props.round]["headline2"] || !props.userInputs[props.round]["headline3"] || !props.userInputs[props.round]["description1"] || !props.userInputs[props.round]["description2"] || !props.userInputs[props.round]["maxCpcBid"]}>Submit</Button>
     </div>
   </FormControl>
 
@@ -251,9 +283,17 @@ const Form = (props) => {
             <p>Conversion Rate: <span>{props.finalConversionRate}</span></p>
             <p>Cost per Conversion: <span>${props.costPerConv}</span></p>
             <p><strong>Conversions: <span>{props.conversions}</span></strong></p>
-            <button id="closePopupButtonInfo" onClick={()=>{
-                    document.querySelector("#popups").style.display="none"
-                }}>OK</button>
+            {
+                props.round !== 3 ? 
+                <button id="closePopupButtonInfo" onClick={()=>{
+                    document.querySelector("#popups").style.display="none";
+                    props.setRound(props.round + 1);
+                }}>Next Round</button>
+            :
+                <button id="closePopupButtonInfo" onClick={()=>{
+                    document.querySelector("#popups").style.display="none";
+                }}>Finish</button>
+            }
 
         </div>
         <div id="successPopup" className="popupDiv">

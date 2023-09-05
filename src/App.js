@@ -25,9 +25,65 @@ function App() {
   const [conversions, setConversions] = useState(null);
   const [costPerConv, setCostPerConv] = useState(null);
   const [round, setRound] = useState(1);
+  const [userInputs, setUserInputs] = useState(
+    {
+      "1": {
+        "landingPage": "",
+        "keyword": "",
+        "matchType": "",
+        "headline1": "",
+        "headline2": "",
+        "headline3": "",
+        "description1": "",
+        "description2": "",
+        "maxCpcBid": null,
+        "totalSpend": null,
+        "finalConversionRate": null,
+        "finalCpc": null,
+        "totalClicks": null,
+        "conversions": null,
+        "costPerConv": null
+      },
+      "2": {
+        "landingPage": "",
+        "keyword": "",
+        "matchType": "",
+        "headline1": "",
+        "headline2": "",
+        "headline3": "",
+        "description1": "",
+        "description2": "",
+        "maxCpcBid": null,
+        "totalSpend": null,
+        "finalConversionRate": null,
+        "finalCpc": null,
+        "totalClicks": null,
+        "conversions": null,
+        "costPerConv": null
+      },
+      "3": {
+        "landingPage": "",
+        "keyword": "",
+        "matchType": "",
+        "headline1": "",
+        "headline2": "",
+        "headline3": "",
+        "description1": "",
+        "description2": "",
+        "maxCpcBid": null,
+        "totalSpend": null,
+        "finalConversionRate": null,
+        "finalCpc": null,
+        "totalClicks": null,
+        "conversions": null,
+        "costPerConv": null
+      },
+    }
+  )
+  
 
   return (
-    <>
+    <div id="infoAndForm">
     <InfoPane 
     adSpend={adSpend}
     setAdSpend={setAdSpend}
@@ -43,6 +99,8 @@ function App() {
     setMaxCpcBid={setMaxCpcBid}
     round={round}
     setRound={setRound}
+    userInputs={userInputs}
+    setUserInputs={setUserInputs}
     />
     
     <Form 
@@ -80,13 +138,15 @@ function App() {
     setCostPerConv={setCostPerConv}
     round={round}
     setRound={setRound}
+    userInputs={userInputs}
+    setUserInputs={setUserInputs}
 
     
     
     />
 
     
-    </>
+    </div>
     
   );
 }
