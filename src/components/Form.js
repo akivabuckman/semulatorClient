@@ -10,15 +10,19 @@ const Form = (props) => {
   // upon submit button click
     const postAndGetResults = async (e) => {
         e.preventDefault();
-        document.querySelector("#keywordInput").value = "";
+        document.querySelector("#keyword1Input").value = "";
         document.querySelector("#maxCpcBidInput").value = "";
         
         try {
           const data = JSON.stringify({
             adSpend: 1400,
             landingPage: props.userInputs[props.round]["landingPage"],
-            keyword: props.userInputs[props.round]["keyword"],
-            matchType: props.userInputs[props.round]["matchType"],
+            keyword1: props.userInputs[props.round]["keyword1"],
+            matchType1: props.userInputs[props.round]["matchType1"],
+            keyword2: props.userInputs[props.round]["keyword2"],
+            matchType2: props.userInputs[props.round]["matchType2"],
+            keyword3: props.userInputs[props.round]["keyword3"],
+            matchType3: props.userInputs[props.round]["matchType3"],
             headline1: props.userInputs[props.round]["headline1"],
             headline2: props.userInputs[props.round]["headline2"],
             headline3: props.userInputs[props.round]["headline3"],
@@ -26,7 +30,6 @@ const Form = (props) => {
             description2: props.userInputs[props.round]["description2"],
             maxCpcBid: props.userInputs[props.round]["maxCpcBid"]
           })
-          console.log(data)
   
       // const res = await fetch(`${process.env.REACT_APP_BASE_URL}/sem/userSubmission`, {
         const res = await fetch("http://localhost:5000/sem/userSubmission", {
@@ -36,7 +39,6 @@ const Form = (props) => {
             body: data,
           });
           const parsedData = await res.json();
-          console.log(parsedData)
           props.setTotalSpend(parsedData["totalSpend"]);
           props.setFinalConversionRate(parsedData["finalConversionRate"]);
           props.setFinalCpc(parsedData["finalCpc"]);
@@ -65,15 +67,39 @@ const Form = (props) => {
       props.setUserInputs(updatedUserInputs);
     };
 
-    const handleKeyword = (event) => {
+    const handleKeyword1 = (event) => {
       const updatedUserInputs = { ...props.userInputs };
-      updatedUserInputs[props.round]["keyword"] = event.target.value;
+      updatedUserInputs[props.round]["keyword1"] = event.target.value;
       props.setUserInputs(updatedUserInputs);
     };
 
-    const handleMatchType = (event) => {
+    const handleMatchType1 = (event) => {
       const updatedUserInputs = { ...props.userInputs };
-      updatedUserInputs[props.round]["matchType"] = event.target.value;
+      updatedUserInputs[props.round]["matchType1"] = event.target.value;
+      props.setUserInputs(updatedUserInputs);
+    };
+
+    const handleKeyword2 = (event) => {
+      const updatedUserInputs = { ...props.userInputs };
+      updatedUserInputs[props.round]["keyword2"] = event.target.value;
+      props.setUserInputs(updatedUserInputs);
+    };
+
+    const handleMatchType2 = (event) => {
+      const updatedUserInputs = { ...props.userInputs };
+      updatedUserInputs[props.round]["matchType2"] = event.target.value;
+      props.setUserInputs(updatedUserInputs);
+    };
+
+    const handleKeyword3 = (event) => {
+      const updatedUserInputs = { ...props.userInputs };
+      updatedUserInputs[props.round]["keyword3"] = event.target.value;
+      props.setUserInputs(updatedUserInputs);
+    };
+
+    const handleMatchType3 = (event) => {
+      const updatedUserInputs = { ...props.userInputs };
+      updatedUserInputs[props.round]["matchType3"] = event.target.value;
       props.setUserInputs(updatedUserInputs);
     };
 
@@ -114,14 +140,69 @@ const Form = (props) => {
     };
 
     const formLog = async () => {
-        console.log(props.userInputs)
-      }
+      const spends = [];
+    for (let i = 1; i <= 3; i++) {
+      const maxCpcBid = 55;
+      const userKeywords = ["guitar lessons", "guitar lessons near me", "learn guitar online"]
+      const keywordParams = {
+        "online guitar lesson": {"exception1":"", "exception2": "", "rating":1, "cpc":4.58},
+        "online guitar lessons": {"exception1":"", "exception2": "", "rating":1, "cpc":4.58},
+        "guitar lesson online": {"exception1":"", "exception2": "", "rating":1, "cpc":4.58},
+        "guitar lessons online": {"exception1":"", "exception2": "", "rating":1, "cpc":4.58},
+        "guitar lesson near me": {"exception1":"", "exception2": "", "rating":0.6, "cpc":3.57},
+        "guitar lessons near me": {"rating":0.6, "cpc":3.57},
+        "guitar lesson": {"exception1":"online", "exception2": "near me", "rating":0.7, "cpc":2.63},
+        "guitar lessons": {"exception1":"online", "exception2": "near me", "rating":0.7, "cpc":2.63},
+        "learn guitar online": {"exception1":"", "exception2": "", "rating":0.8, "cpc":4.28},
+        "learn to play guitar online": {"exception1":"", "exception2": "", "rating":0.8, "cpc":3.31},
+        "guitar course": {"exception1":"", "exception2": "", "rating":0.7, "cpc":4.33},
+        "learn guitar": {"exception1":"online", "exception2": "", "rating":0.5, "cpc":2.99},
+        "guitar lessons for beginners": {"exception1":"", "exception2": "", "rating":1, "cpc":2.43},
+    }
+        const keywordSums = Object.entries(keywordParams).map(([key, value]) => ({
+            keyword: key,
+            value: ((userKeywords[i-1].includes(key) * 1) - 
+            (userKeywords[i-1].includes(value.exception1) && value.exception1 !== "") - 
+            (userKeywords[i-1].includes(value.exception2) && value.exception2 !== "") === 1) ?
+            value.cpc : 0
+        }));
+
+        const bestCpc = Math.max(...keywordSums.map(o => o.value))
+
+        const SEMRushPercent = maxCpcBid / bestCpc;
+
+        console.log(SEMRushPercent, "srp", " semrushcpc:", bestCpc)
+        
+        let percentOfBudgetSpent;
+        if (SEMRushPercent >= 0.76) {
+            percentOfBudgetSpent = 1;
+        } else if (SEMRushPercent >= 0.51) {
+            percentOfBudgetSpent = .75;
+        } else if (SEMRushPercent >= 0.34) {
+            percentOfBudgetSpent = .33;
+        } else {
+            percentOfBudgetSpent = 0;
+        };
+
+        const spend = percentOfBudgetSpent * 1400 / 3;
+        spends.push(spend)
+    };
+    console.log(spends, "spends");
+
+    
+    
+    const totalSpend = spends.reduce((partialSum, a) => partialSum + a, 0);
+    console.log(totalSpend, "total spend")
+
+    };
+    
+    
 
     
     return (
         <>
         <FormControl id="form">
-        <button onClick={formLog}>form log</button>
+        {/* <button onClick={formLog}>form log</button> */}
 
     <div id="intro" className="question">
       <h1 id="roundTitle">Round {props.round}</h1>
@@ -149,13 +230,41 @@ const Form = (props) => {
     </div>
 
     <div className='question'>
-      <h3>Enter your keyword below</h3>
-      <TextField id="keywordInput" type="text" onChange={handleKeyword} required />
+      <h3>Enter keyword 1:</h3>
+      <TextField id="keyword1Input" type="text" onChange={handleKeyword1} required />
     </div>
 
     <div className='question'>
-      <h3>Choose your match type:</h3>
-      <RadioGroup name="matchType" value={props.userInputs[props.round]["matchType"]} onChange={handleMatchType}>
+      <h3>Choose your match type for keyword 1:</h3>
+      <RadioGroup name="matchType1" value={props.userInputs[props.round]["matchType1"]} onChange={handleMatchType1}>
+        <FormControlLabel value="Exact" control={<Radio />} label="Exact" />
+        <FormControlLabel value="Phrase" control={<Radio />} label="Phrase" />
+        <FormControlLabel value="Broad" control={<Radio />} label="Broad" />
+      </RadioGroup>
+    </div>
+
+    <div className='question'>
+      <h3>Enter keyword 2:</h3>
+      <TextField id="keyword2Input" type="text" onChange={handleKeyword2} required />
+    </div>
+
+    <div className='question'>
+      <h3>Choose your match type for keyword 2:</h3>
+      <RadioGroup name="matchType2" value={props.userInputs[props.round]["matchType2"]} onChange={handleMatchType2} >
+        <FormControlLabel value="Exact" control={<Radio />} label="Exact" />
+        <FormControlLabel value="Phrase" control={<Radio />} label="Phrase" />
+        <FormControlLabel value="Broad" control={<Radio />} label="Broad" />
+      </RadioGroup>
+    </div>
+
+    <div className='question'>
+      <h3>Enter keyword 3:</h3>
+      <TextField id="keywordInput3" type="text" onChange={handleKeyword3} required/>
+    </div>
+
+    <div className='question'>
+      <h3>Choose your match type for keyword 3:</h3>
+      <RadioGroup name="matchType3" value={props.userInputs[props.round]["matchType3"]} onChange={handleMatchType3}>
         <FormControlLabel value="Exact" control={<Radio />} label="Exact" />
         <FormControlLabel value="Phrase" control={<Radio />} label="Phrase" />
         <FormControlLabel value="Broad" control={<Radio />} label="Broad" />
@@ -168,7 +277,7 @@ const Form = (props) => {
         <FormControl>
         <label>
           Select first headline: <br/>
-          <Select value={props.userInputs[props.round]["headline1"]} onChange={handleHeadline1} required className='selectDrop'>
+          <Select value={props.userInputs[props.round]["headline1"]} onChange={handleHeadline1} required className='selectDrop' >
             {Object.keys(options.guitarLessons.headlines).map((headline, key) => (
                 <MenuItem
                 value={headline}
@@ -246,13 +355,12 @@ const Form = (props) => {
 
     <div className='question'>
       <label htmlFor="maxCpcBid">Enter your max cost per click bid:</label>
-      <p>$<TextField id="maxCpcBidInput" type="text" onChange={handleMaxCpcBid} required /></p>
+      <p>$<TextField id="maxCpcBidInput" type="text" onChange={handleMaxCpcBid} required/></p>
     </div>
 
     <div>
       <Button onClick={(e)=>{
         document.querySelector("#popups").style.display="flex"
-        console.log(props.conversions)
         if (parseFloat(props.conversions) >= 35) {
             document.querySelector("#successPopup").style.display = "flex"
             document.querySelector("#failPopup").style.display = "none"
@@ -262,7 +370,7 @@ const Form = (props) => {
             document.querySelector("#failPopup").style.display = "flex"
         };
         postAndGetResults(e)}}
-        variant="contained" color="primary" type="submit" disabled={!props.userInputs[props.round]["landingPage"] || !props.userInputs[props.round]["keyword"] || !props.userInputs[props.round]["matchType"] || !props.userInputs[props.round]["headline1"] ||!props.userInputs[props.round]["headline2"] || !props.userInputs[props.round]["headline3"] || !props.userInputs[props.round]["description1"] || !props.userInputs[props.round]["description2"] || !props.userInputs[props.round]["maxCpcBid"]}>Submit</Button>
+        variant="contained" color="primary" type="submit" disabled={!props.userInputs[props.round]["landingPage"] || !props.userInputs[props.round]["keyword1"] || !props.userInputs[props.round]["matchType1"] || !props.userInputs[props.round]["headline1"] ||!props.userInputs[props.round]["headline2"] || !props.userInputs[props.round]["headline3"] || !props.userInputs[props.round]["description1"] || !props.userInputs[props.round]["description2"] || !props.userInputs[props.round]["maxCpcBid"]}>Submit</Button>
     </div>
   </FormControl>
 

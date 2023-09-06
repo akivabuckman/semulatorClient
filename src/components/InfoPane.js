@@ -6,7 +6,6 @@ const InfoPane = (props) => {
     // hide future rounds
     useEffect(()=>{
         const roundDivs = document.querySelectorAll(".roundDiv");
-        console.log("rd", roundDivs);
         for (let i of roundDivs) {
             if (parseInt(i.getAttribute("round")) >= parseInt(props.round)) {
                 i.style.display = "none"
