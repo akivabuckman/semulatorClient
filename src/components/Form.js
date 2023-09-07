@@ -11,11 +11,12 @@ const Form = (props) => {
     const postAndGetResults = async (e) => {
         e.preventDefault();
         document.querySelector("#keyword1Input").value = "";
+        document.querySelector("#keyword2Input").value = "";
+        document.querySelector("#keyword3Input").value = "";
         document.querySelector("#maxCpcBidInput").value = "";
         
         try {
           const data = JSON.stringify({
-            adSpend: 1400,
             landingPage: props.userInputs[props.round]["landingPage"],
             keyword1: props.userInputs[props.round]["keyword1"],
             matchType1: props.userInputs[props.round]["matchType1"],
@@ -31,8 +32,8 @@ const Form = (props) => {
             maxCpcBid: props.userInputs[props.round]["maxCpcBid"]
           })
   
-      // const res = await fetch(`${process.env.REACT_APP_BASE_URL}/sem/userSubmission`, {
-        const res = await fetch("http://localhost:5000/sem/userSubmission", {
+      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/sem/userSubmission`, {
+        // const res = await fetch("http://localhost:5000/sem/userSubmission", {
 
         method: "POST",
             headers: {"content-type": "application/json"},
@@ -140,61 +141,11 @@ const Form = (props) => {
     };
 
     const formLog = async () => {
-      const spends = [];
-    for (let i = 1; i <= 3; i++) {
-      const maxCpcBid = 55;
-      const userKeywords = ["guitar lessons", "guitar lessons near me", "learn guitar online"]
-      const keywordParams = {
-        "online guitar lesson": {"exception1":"", "exception2": "", "rating":1, "cpc":4.58},
-        "online guitar lessons": {"exception1":"", "exception2": "", "rating":1, "cpc":4.58},
-        "guitar lesson online": {"exception1":"", "exception2": "", "rating":1, "cpc":4.58},
-        "guitar lessons online": {"exception1":"", "exception2": "", "rating":1, "cpc":4.58},
-        "guitar lesson near me": {"exception1":"", "exception2": "", "rating":0.6, "cpc":3.57},
-        "guitar lessons near me": {"rating":0.6, "cpc":3.57},
-        "guitar lesson": {"exception1":"online", "exception2": "near me", "rating":0.7, "cpc":2.63},
-        "guitar lessons": {"exception1":"online", "exception2": "near me", "rating":0.7, "cpc":2.63},
-        "learn guitar online": {"exception1":"", "exception2": "", "rating":0.8, "cpc":4.28},
-        "learn to play guitar online": {"exception1":"", "exception2": "", "rating":0.8, "cpc":3.31},
-        "guitar course": {"exception1":"", "exception2": "", "rating":0.7, "cpc":4.33},
-        "learn guitar": {"exception1":"online", "exception2": "", "rating":0.5, "cpc":2.99},
-        "guitar lessons for beginners": {"exception1":"", "exception2": "", "rating":1, "cpc":2.43},
+      const totalSpend = 1;
+      const conversions = 2;
+      const costPerConv = isNaN(totalSpend / conversions) ? 0: (totalSpend / conversions) === Infinity ? 0 : (totalSpend / conversions).toFixed(2);
+      console.log(costPerConv)
     }
-        const keywordSums = Object.entries(keywordParams).map(([key, value]) => ({
-            keyword: key,
-            value: ((userKeywords[i-1].includes(key) * 1) - 
-            (userKeywords[i-1].includes(value.exception1) && value.exception1 !== "") - 
-            (userKeywords[i-1].includes(value.exception2) && value.exception2 !== "") === 1) ?
-            value.cpc : 0
-        }));
-
-        const bestCpc = Math.max(...keywordSums.map(o => o.value))
-
-        const SEMRushPercent = maxCpcBid / bestCpc;
-
-        console.log(SEMRushPercent, "srp", " semrushcpc:", bestCpc)
-        
-        let percentOfBudgetSpent;
-        if (SEMRushPercent >= 0.76) {
-            percentOfBudgetSpent = 1;
-        } else if (SEMRushPercent >= 0.51) {
-            percentOfBudgetSpent = .75;
-        } else if (SEMRushPercent >= 0.34) {
-            percentOfBudgetSpent = .33;
-        } else {
-            percentOfBudgetSpent = 0;
-        };
-
-        const spend = percentOfBudgetSpent * 1400 / 3;
-        spends.push(spend)
-    };
-    console.log(spends, "spends");
-
-    
-    
-    const totalSpend = spends.reduce((partialSum, a) => partialSum + a, 0);
-    console.log(totalSpend, "total spend")
-
-    };
     
     
 
@@ -259,7 +210,7 @@ const Form = (props) => {
 
     <div className='question'>
       <h3>Enter keyword 3:</h3>
-      <TextField id="keywordInput3" type="text" onChange={handleKeyword3} required/>
+      <TextField id="keyword3Input" type="text" onChange={handleKeyword3} required/>
     </div>
 
     <div className='question'>
