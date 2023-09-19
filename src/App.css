@@ -43,15 +43,23 @@
 }
 
 #infoPaneDiv {
-  width: 30%; /* Set the width for infoPane */
+  width: 20%; /* Set the width for infoPane */
   background-color: lightblue; /* Add background color or any other styles you want */
   position: fixed; /* Fix the position */
   left: 0; /* Stick to the left */
   display: flex;
+  box-shadow: black 3px 3px 6px 0px , rgba(255, 255, 255, 0.5) -3px -3px 6px 1px 
 }
 
-#form {
-  width: 70%; /* Set the width for form */
-  margin-left: 32%; /* Adjust margin to create space for infoPane */
+@media (max-width: 768px) {
+  #infoPaneDiv {
+    display: none;
+  }
+}
 
+@media (min-width: 768px) {
+  #form {
+  width: 80%; /* Set the width for form */
+  margin-left: 20%; /* Adjust margin to create space for infoPane */
+  }
 }

@@ -2,6 +2,12 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import "./Form.css";
 import FormControl from '@mui/material/FormControl';
+import NextButton from "./NextButton"
+import google from "../images/google.png"
+import facebook from "../images/facebook.png"
+import instagram from "../images/instagram.png"
+import tiktok from "../images/tiktok.png"
+import weather from "../images/weather.png"
 import { InputLabel, Input, FormHelperText, TextField, Button, RadioGroup, FormControlLabel, Radio, Select, MenuItem } from "@mui/material";
 const options = require('../options.json');
 
@@ -155,74 +161,91 @@ const Form = (props) => {
         <FormControl id="form">
         {/* <button onClick={formLog}>form log</button> */}
 
-    <div id="intro" className="question">
+    <div id="q1" className="question">
       <h1 id="roundTitle">Round {props.round}</h1>
       <h2>You are working for a client who helps beginners learn guitar over the internet. You have $100/day to spend on ads over the next 2 weeks, for a total of $1400.</h2>
       <p>Your goal: Get 35 ad leads (conversions) in one round</p>
+      <NextButton question={1} requirements={[]}/>
     </div>
 
     <div id='q2' className='question'>
       <h3>Learn about landing pages</h3>
-      <iframe width="650" height="350" src="https://www.youtube.com/embed/G59uBAfcpSQ" title="Landing Pages" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+      <iframe width="90%" src="https://www.youtube.com/embed/G59uBAfcpSQ" title="Landing Pages" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+      <NextButton question={2} requirements={[]} />
+
     </div>
 
-    <div className='question'>
+    <div id="q3" className='question'>
       <h3 htmlFor="landingPage">Choose your landing page</h3>
-      <RadioGroup name="landingPage" value={props.userInputs[props.round]["landingPage"]} onChange={handleLandingPage} required>
-        {options.guitarLessons.landingPage.map((lp, key) => (
-        <FormControlLabel
-          key={key}
-          value={lp}
-          control={<Radio />}
-          label={lp}
-        />
-      ))}
-      </RadioGroup>
+      <div id="photoContainer">
+        <RadioGroup style={{display: 'flex', flexDirection: "row", flexWrap: "wrap", justifyContent: "center" }} aria-label="image" name="landingPage" value={props.userInputs[props.round]["landingPage"]} onChange={handleLandingPage} required>
+          <div className="lpOptionDiv">
+            <FormControlLabel control={<Radio className="radio-button"/>} label={<img className="lpOption" src={google} alt="google" selected={false}/>} value="A" />
+            <p>A</p>
+          </div>
+          <div className="lpOptionDiv">
+            <FormControlLabel control={<Radio />} label={<img className="lpOption" src={facebook} alt="google" selected={false}/>} value="B" />
+            <p>B</p>
+          </div>
+          <div className="lpOptionDiv">
+            <FormControlLabel control={<Radio />} label={<img className="lpOption" src={instagram} alt="google" selected={false}/>} value="C" />
+            <p>C</p>
+          </div>
+          <div className="lpOptionDiv">
+            <FormControlLabel control={<Radio />} label={<img className="lpOption" src={tiktok} alt="google" selected={false}/>} value="D" />
+            <p>D</p>
+          </div>
+          <div className="lpOptionDiv">
+            <FormControlLabel control={<Radio />} label={<img className="lpOption" src={weather} alt="google" selected={false}/>} value="E" />
+            <p>E</p>
+          </div>
+        </RadioGroup>
+      </div>
+      <NextButton question={3} requirements={[props.userInputs[props.round]["landingPage"]]}/>
+
     </div>
 
-    <div className='question'>
+    <div id="q4" className='question'>
       <h3>Enter keyword 1:</h3>
       <TextField id="keyword1Input" type="text" onChange={handleKeyword1} required />
-    </div>
-
-    <div className='question'>
       <h3>Choose your match type for keyword 1:</h3>
       <RadioGroup name="matchType1" value={props.userInputs[props.round]["matchType1"]} onChange={handleMatchType1}>
         <FormControlLabel value="Exact" control={<Radio />} label="Exact" />
         <FormControlLabel value="Phrase" control={<Radio />} label="Phrase" />
         <FormControlLabel value="Broad" control={<Radio />} label="Broad" />
       </RadioGroup>
+      <NextButton question={4} requirements={[props.userInputs[props.round]["keyword1"], props.userInputs[props.round]["matchType1"]]}/>
+      
     </div>
 
-    <div className='question'>
+    <div id="q5" className='question'>
       <h3>Enter keyword 2:</h3>
       <TextField id="keyword2Input" type="text" onChange={handleKeyword2} required />
-    </div>
 
-    <div className='question'>
       <h3>Choose your match type for keyword 2:</h3>
       <RadioGroup name="matchType2" value={props.userInputs[props.round]["matchType2"]} onChange={handleMatchType2} >
         <FormControlLabel value="Exact" control={<Radio />} label="Exact" />
         <FormControlLabel value="Phrase" control={<Radio />} label="Phrase" />
         <FormControlLabel value="Broad" control={<Radio />} label="Broad" />
       </RadioGroup>
+      <NextButton question={5} requirements={[props.userInputs[props.round]["keyword2"], props.userInputs[props.round]["matchType2"]]}/>
+
     </div>
 
-    <div className='question'>
+    <div id="q6" className='question'>
       <h3>Enter keyword 3:</h3>
       <TextField id="keyword3Input" type="text" onChange={handleKeyword3} required/>
-    </div>
-
-    <div className='question'>
       <h3>Choose your match type for keyword 3:</h3>
       <RadioGroup name="matchType3" value={props.userInputs[props.round]["matchType3"]} onChange={handleMatchType3}>
         <FormControlLabel value="Exact" control={<Radio />} label="Exact" />
         <FormControlLabel value="Phrase" control={<Radio />} label="Phrase" />
         <FormControlLabel value="Broad" control={<Radio />} label="Broad" />
       </RadioGroup>
+      <NextButton question={6} requirements={[props.userInputs[props.round]["keyword3"], props.userInputs[props.round]["matchType3"]]}/>
+
     </div>
 
-    <div className='question'>
+    <div id="q7" className='question'>
       <h3>Choose Your Headlines</h3>
       <div>
         <FormControl>
@@ -269,9 +292,11 @@ const Form = (props) => {
         </label>
         </FormControl>
       </div>
+      <NextButton question={7} requirements={[props.userInputs[props.round]["headline1"], props.userInputs[props.round]["headline2"], props.userInputs[props.round]["headline3"]]}/>
+
     </div>
 
-    <div className='question'>
+    <div id="q8" className='question'>
       <h3>Choose Your Descriptions</h3>
       <div>
         <FormControl>
@@ -302,14 +327,15 @@ const Form = (props) => {
         </label>
         </FormControl>
       </div>
+      <NextButton question={8} requirements={[props.userInputs[props.round]["description1"], props.userInputs[props.round]["description2"]]}/>
+
     </div>
 
-    <div className='question'>
+    <div id="q9" className='question'>
       <label htmlFor="maxCpcBid">Enter your max cost per click bid:</label>
       <p>$<TextField id="maxCpcBidInput" type="text" onChange={handleMaxCpcBid} required/></p>
-    </div>
-
-    <div>
+      <div className='lastButtonDiv'>
+        <NextButton question={9} requirements={[props.userInputs[props.round]["maxCpcBid"]]} postAndGetResults={postAndGetResults}/>
       <Button onClick={(e)=>{
         document.querySelector("#popups").style.display="flex"
         if (parseFloat(props.conversions) >= 35) {
@@ -321,8 +347,13 @@ const Form = (props) => {
             document.querySelector("#failPopup").style.display = "flex"
         };
         postAndGetResults(e)}}
-        variant="contained" color="primary" type="submit" disabled={!props.userInputs[props.round]["landingPage"] || !props.userInputs[props.round]["keyword1"] || !props.userInputs[props.round]["matchType1"] || !props.userInputs[props.round]["headline1"] ||!props.userInputs[props.round]["headline2"] || !props.userInputs[props.round]["headline3"] || !props.userInputs[props.round]["description1"] || !props.userInputs[props.round]["description2"] || !props.userInputs[props.round]["maxCpcBid"]}>Submit</Button>
+        variant="contained" color="secondary" type="submit" disabled={!props.userInputs[props.round]["landingPage"] || !props.userInputs[props.round]["keyword1"] || !props.userInputs[props.round]["matchType1"] || !props.userInputs[props.round]["headline1"] ||!props.userInputs[props.round]["headline2"] || !props.userInputs[props.round]["headline3"] || !props.userInputs[props.round]["description1"] || !props.userInputs[props.round]["description2"] || !props.userInputs[props.round]["maxCpcBid"]}>Submit
+        </Button>
+      </div>
+      <p>9 of 9</p>
+      
     </div>
+
   </FormControl>
 
       <div id="popups">
@@ -347,6 +378,10 @@ const Form = (props) => {
                 <button id="closePopupButtonInfo" onClick={()=>{
                     document.querySelector("#popups").style.display="none";
                     props.setRound(props.round + 1);
+                    document.querySelector(`#q3`).scrollIntoView({
+                      behavior: "smooth", 
+                      block: "start", 
+                  });
                 }}>Next Round</button>
             :
                 <button id="closePopupButtonInfo" onClick={()=>{
