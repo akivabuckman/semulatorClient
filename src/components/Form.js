@@ -376,7 +376,7 @@ const Form = (props) => {
       <div id="popups">
         <div id="failPopup" className="popupDiv">
             <h3>Nice Try!</h3>
-            <p>Here are your results for round 1. You generated {props.conversions} leads, which fell short of your goal of 35.</p>
+            <p>Here are your results for round {props.round}. You generated {props.conversions} leads, which fell short of your goal of 35.</p>
             <p>But that's ok! This is a normal part of the optimization process that all digital marketers encounter, and you still have Z more rounds to reach your goal.</p>
             <p>Here are your next steps:</p>
             <ul>
