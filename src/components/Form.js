@@ -38,8 +38,8 @@ const Form = (props) => {
             maxCpcBid: props.userInputs[props.round]["maxCpcBid"]
           })
   
-      const res = await fetch(`${process.env.REACT_APP_BASE_URL}/sem/userSubmission`, {
-        // const res = await fetch("http://localhost:5000/sem/userSubmission", {
+      // const res = await fetch(`${process.env.REACT_APP_BASE_URL}/sem/userSubmission`, {
+        const res = await fetch("http://localhost:5000/sem/userSubmission", {
 
         method: "POST",
             headers: {"content-type": "application/json"},
@@ -72,6 +72,17 @@ const Form = (props) => {
       const updatedUserInputs = { ...props.userInputs };
       updatedUserInputs[props.round]["landingPage"] = event.target.value;
       props.setUserInputs(updatedUserInputs);
+      const lpOptionDivs = Array.from(document.querySelectorAll(".lpOptionDiv"));
+      for (let i of lpOptionDivs) {
+        if (i.getAttribute("value") === event.target.value) {
+          const overlay = i.querySelector(".overlay")
+          overlay.style.display = "block"
+ 
+        } else {
+          const overlay = i.querySelector(".overlay")
+          overlay.style.display = "none"
+        }
+      }
     };
 
     const handleKeyword1 = (event) => {
@@ -170,34 +181,40 @@ const Form = (props) => {
 
     <div id='q2' className='question'>
       <h3>Learn about landing pages</h3>
-      <iframe width="90%" src="https://www.youtube.com/embed/G59uBAfcpSQ" title="Landing Pages" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+      <iframe width="90%"  height="500px" src="https://www.youtube.com/embed/G59uBAfcpSQ" title="Landing Pages" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
       <NextButton question={2} requirements={[]} />
 
     </div>
 
     <div id="q3" className='question'>
-      <h3 htmlFor="landingPage">Choose your landing page</h3>
-      <div id="photoContainer">
+      <h3 >Choose your landing page</h3>
+      <div id="photoContainer" >
+
         <RadioGroup style={{display: 'flex', flexDirection: "row", flexWrap: "wrap", justifyContent: "center" }} aria-label="image" name="landingPage" value={props.userInputs[props.round]["landingPage"]} onChange={handleLandingPage} required>
-          <div className="lpOptionDiv">
-            <FormControlLabel control={<Radio className="radio-button"/>} label={<img className="lpOption" src={google} alt="google" selected={false}/>} value="A" />
+          <div className="lpOptionDiv" value="A">
+            <FormControlLabel style={{marginRight: "0", marginLeft: "0" }} control={<Radio className="radio-button"/>} label={<img className="lpOption" src={google} alt="google" selected={false}/>} value="A" />
             <p>A</p>
+            <div className="overlay" value="A"></div>
           </div>
-          <div className="lpOptionDiv">
-            <FormControlLabel control={<Radio />} label={<img className="lpOption" src={facebook} alt="google" selected={false}/>} value="B" />
+          <div className="lpOptionDiv" value="B">
+            <FormControlLabel style={{marginRight: "0", marginLeft: "0" }} control={<Radio />} label={<img className="lpOption" src={facebook} alt="google" selected={false}/>} value="B" />
             <p>B</p>
+            <div className="overlay" value="B"></div>
           </div>
-          <div className="lpOptionDiv">
-            <FormControlLabel control={<Radio />} label={<img className="lpOption" src={instagram} alt="google" selected={false}/>} value="C" />
+          <div className="lpOptionDiv" value="C">
+            <FormControlLabel style={{marginRight: "0", marginLeft: "0" }} control={<Radio />} label={<img className="lpOption" src={instagram} alt="google" selected={false}/>} value="C" />
             <p>C</p>
+            <div className="overlay" value="C"></div>
           </div>
-          <div className="lpOptionDiv">
-            <FormControlLabel control={<Radio />} label={<img className="lpOption" src={tiktok} alt="google" selected={false}/>} value="D" />
+          <div className="lpOptionDiv" value="D">
+            <FormControlLabel style={{marginRight: "0", marginLeft: "0" }} control={<Radio />} label={<img className="lpOption" src={tiktok} alt="google" selected={false}/>} value="D" />
             <p>D</p>
+            <div className="overlay" value="D"></div>
           </div>
-          <div className="lpOptionDiv">
-            <FormControlLabel control={<Radio />} label={<img className="lpOption" src={weather} alt="google" selected={false}/>} value="E" />
+          <div className="lpOptionDiv" value="E">
+            <FormControlLabel style={{marginRight: "0", marginLeft: "0" }} control={<Radio />} label={<img className="lpOption" src={weather} alt="google" selected={false}/>} value="E" />
             <p>E</p>
+            <div className="overlay" value="E"></div>
           </div>
         </RadioGroup>
       </div>

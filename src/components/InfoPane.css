@@ -1,0 +1,13 @@
+.roundDiv {
+    border-radius: 10px;
+    background-color: lightblue; /* Add background color or any other styles you want */
+    box-shadow: black 3px 3px 6px 0px , rgba(255, 255, 255, 0.5) -3px -3px 6px 1px;
+    padding: 5px;
+}
+
+#infoPaneDiv {
+    width: 20%; /* Set the width for infoPane */
+    position: fixed; /* Fix the position */
+    left: 0; /* Stick to the left */
+    display: flex;
+  }

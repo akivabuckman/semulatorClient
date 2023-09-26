@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import "./InfoPane.css"
 
 const InfoPane = (props) => {
 

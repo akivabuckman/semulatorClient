@@ -42,14 +42,6 @@
   align-items: flex-start; /* Align items at the top */
 }
 
-#infoPaneDiv {
-  width: 20%; /* Set the width for infoPane */
-  background-color: lightblue; /* Add background color or any other styles you want */
-  position: fixed; /* Fix the position */
-  left: 0; /* Stick to the left */
-  display: flex;
-  box-shadow: black 3px 3px 6px 0px , rgba(255, 255, 255, 0.5) -3px -3px 6px 1px 
-}
 
 @media (max-width: 768px) {
   #infoPaneDiv {
@@ -61,5 +53,9 @@
   #form {
   width: 80%; /* Set the width for form */
   margin-left: 20%; /* Adjust margin to create space for infoPane */
+  }
+
+  .lpOption:hover {
+    transform: scale(2.5); /* Scale the image to 4 times its original size on hover */
   }
 }
